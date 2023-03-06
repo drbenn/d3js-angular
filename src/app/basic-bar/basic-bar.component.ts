@@ -1,6 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ContentChild, Directive, OnInit, TemplateRef } from '@angular/core';
 import * as d3 from 'd3';
 
+
+export interface IPoint {
+  x: number;
+  xLabel?: string;
+  y: number;
+  yLabel?: string;
+}
+
+@Directive({
+  selector: "[chart-tooltip]"
+})
+export class ChartTooltipDirective {
+  constructor(public tmp: TemplateRef<any>) {}
+}
 @Component({
   selector: 'app-basic-bar',
   templateUrl: './basic-bar.component.html',
@@ -8,7 +22,9 @@ import * as d3 from 'd3';
 })
 
 // https://blog.logrocket.com/data-visualization-angular-d3-js/
-export class BasicBarComponent implements OnInit {
+// https://stackblitz.com/edit/angular-ivy-vrq5p6?file=src%2Fapp%2Fchart.component.ts
+// https://stackblitz.com/edit/d3-angular?file=src%2Fapp%2Fapp.component.css,src%2Fapp%2Fapp.component.html,src%2Fapp%2Fapp.component.ts,src%2Fapp%2Fapp.module.ts
+export class BasicBarComponent<T extends IPoint> implements OnInit {
   private data = [
     {"Framework": "Vue", "Stars": "166443", "Released": "2014"},
     {"Framework": "React", "Stars": "150793", "Released": "2013"},
@@ -21,6 +37,15 @@ export class BasicBarComponent implements OnInit {
   private width = 750 - (this.margin * 2);
   private height = 400 - (this.margin * 2);
 
+  @ContentChild(ChartTooltipDirective)
+  toolTipTmp: ChartTooltipDirective
+
+  hovered?: T
+  ttPos = {
+    "left.px": 0,
+    "top.px": 0
+  }
+
   constructor() { }
 
   ngOnInit(): void {
@@ -32,7 +57,7 @@ export class BasicBarComponent implements OnInit {
    * Selects the element in the DOM and inserts a new SVG
    */
   private createSvg(): void {
-    this.svg = d3.select("figure#bar")
+    this.svg = d3.select("div#bar")
     .append("svg")
     .attr("width", this.width + (this.margin * 2))
     .attr("height", this.height + (this.margin * 2))
@@ -68,6 +93,25 @@ export class BasicBarComponent implements OnInit {
     this.svg.append("g")
     .call(d3.axisLeft(y));
 
+
+    // tooltip mouseover event handler
+        const tipMouseover = (d) => {
+          this.hovered = d;
+          console.log('this.hovered');
+          console.log(d);
+          console.log(d3.pointer(event));
+          
+          this.ttPos["left.px"] = d.pageX + 15;
+          this.ttPos["top.px"] = d.pageY - 28;
+          // this.ttPos["left.px"] = d3.event.pageX + 15;
+          // this.ttPos["top.px"] = d3.event.pageY - 28;
+        
+      };
+      // tooltip mouseout event handler
+      var tipMouseout = (d) => {
+          this.hovered = undefined;
+      };
+
     // Create and fill the bars
     this.svg.selectAll("bars")
     .data(data)
@@ -77,7 +121,9 @@ export class BasicBarComponent implements OnInit {
     .attr("y", (d: any) => y(d.Stars))
     .attr("width", x.bandwidth())
     .attr("height", (d: any) => this.height - y(d.Stars))
-    .attr("fill", "#d04a35");
+    .attr("fill", "#d04a35")
+    .on("mouseover", tipMouseover)
+    .on("mouseout", tipMouseout);
   }
 
 }

@@ -1,2 +1,7 @@
 <div class="component-title">Bar Chart</div>
-<figure id="bar"></figure>
+
+<div class="tooltip" *ngIf="toolTipTmp && hovered" [ngStyle]="ttPos">
+  <ng-container *ngTemplateOutlet="toolTipTmp.tmp; context: {$implicit: hovered}"></ng-container>
+</div>
+
+<div id="bar"></div>

@@ -11,6 +11,8 @@ import { ResponsiveBarComponent } from './responsive-bar/responsive-bar.componen
 import { BasicMapComponent } from './basic-map/basic-map.component';
 import { BasicLineComponent } from './basic-line/basic-line.component';
 import { StackedBarTooltipComponent } from './stacked-bar-tooltip/stacked-bar-tooltip.component';
+import { BarChartTwoComponent } from './bar-chart-two/bar-chart-two.component';
+import { DonutOneComponent } from './donut-one/donut-one.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { StackedBarTooltipComponent } from './stacked-bar-tooltip/stacked-bar-to
     ResponsiveBarComponent,
     BasicMapComponent,
     BasicLineComponent,
-    StackedBarTooltipComponent
+    StackedBarTooltipComponent,
+    BarChartTwoComponent,
+    DonutOneComponent
   ],
   imports: [
     BrowserModule,
