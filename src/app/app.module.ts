@@ -8,6 +8,9 @@ import { BasicBarComponent } from './basic-bar/basic-bar.component';
 import { BasicPieComponent } from './basic-pie/basic-pie.component';
 import { BasicScatterComponent } from './basic-scatter/basic-scatter.component';
 import { ResponsiveBarComponent } from './responsive-bar/responsive-bar.component';
+import { BasicMapComponent } from './basic-map/basic-map.component';
+import { BasicLineComponent } from './basic-line/basic-line.component';
+import { StackedBarTooltipComponent } from './stacked-bar-tooltip/stacked-bar-tooltip.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { ResponsiveBarComponent } from './responsive-bar/responsive-bar.componen
     BasicBarComponent,
     BasicPieComponent,
     BasicScatterComponent,
-    ResponsiveBarComponent
+    ResponsiveBarComponent,
+    BasicMapComponent,
+    BasicLineComponent,
+    StackedBarTooltipComponent
   ],
   imports: [
     BrowserModule,
