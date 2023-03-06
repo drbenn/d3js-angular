@@ -1,0 +1,36 @@
+:host {
+    display:block;
+    background-color: rgb(42, 42, 42);
+    color: white;
+    padding: 1rem ;
+}
+
+.app-title {
+    font-size: 2rem;
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+}
+
+a:link {
+    text-decoration: none;
+    color: white;
+    margin-right: 1.5rem;
+    transition: 100ms;
+}
+
+a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    text-decoration: none;
+    color: rgb(226, 228, 235);
+    transition: 100ms;
+    cursor: default;
+}
+
+a:active {
+    text-decoration: none;
+    color: white;
+}
