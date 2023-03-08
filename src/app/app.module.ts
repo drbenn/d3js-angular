@@ -13,6 +13,8 @@ import { BasicLineComponent } from './basic-line/basic-line.component';
 import { StackedBarTooltipComponent } from './stacked-bar-tooltip/stacked-bar-tooltip.component';
 import { BarChartTwoComponent } from './bar-chart-two/bar-chart-two.component';
 import { DonutOneComponent } from './donut-one/donut-one.component';
+import { BarChartTooltipComponent } from './bar-chart-tooltip/bar-chart-tooltip.component';
+import { BarTooltipModule } from './common/ui/bar-tooltip/bar-tooltip.module';
 
 @NgModule({
   declarations: [
@@ -26,11 +28,13 @@ import { DonutOneComponent } from './donut-one/donut-one.component';
     BasicLineComponent,
     StackedBarTooltipComponent,
     BarChartTwoComponent,
-    DonutOneComponent
+    DonutOneComponent,
+    BarChartTooltipComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BarTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

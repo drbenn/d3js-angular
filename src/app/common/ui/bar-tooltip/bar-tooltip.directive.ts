@@ -2,12 +2,12 @@ import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Directive, Elem
 import { BarTooltipComponent } from './bar-tooltip.component';
 
 @Directive({
-  selector: '[barTooltip]'
+  selector: '[tooltip]'
 })
 export class BarTooltipDirective {
 
 
-  @Input() barTooltip = 'MUNKLE';
+  @Input() tooltip = '';
 
   private componentRef: ComponentRef<any> = null;
 
@@ -38,7 +38,7 @@ export class BarTooltipDirective {
 
   private setTooltipComponentProperties() {
     if (this.componentRef !== null) {
-      this.componentRef.instance.tooltip = this.barTooltip;
+      this.componentRef.instance.tooltip = this.tooltip;
       const {left, right, bottom} =
             this.elementRef.nativeElement.getBoundingClientRect();
       this.componentRef.instance.left = (right - left) / 2 + left;

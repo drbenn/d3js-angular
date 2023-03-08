@@ -7,14 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BarTooltipComponent implements OnInit {
 
-  barTooltip: string = '';
+  tooltip: string = '';
   left: number = 0;
   top: number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.barTooltip, this.left);
+    console.log(this.tooltip, this.left);
 
   }
 

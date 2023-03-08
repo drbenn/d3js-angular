@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BarChartTooltipComponent } from './bar-chart-tooltip/bar-chart-tooltip.component';
 import { BarChartTwoComponent } from './bar-chart-two/bar-chart-two.component';
 import { BasicBarComponent } from './basic-bar/basic-bar.component';
 import { BasicLineComponent } from './basic-line/basic-line.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path:'basic-line', component: BasicLineComponent},
   {path:'stacked-bar-tooltip', component: StackedBarTooltipComponent},
   {path:'donut-one', component: DonutOneComponent},
+  {path:'bar-chart-tooltip', component: BarChartTooltipComponent},
 ];
 
 @NgModule({
