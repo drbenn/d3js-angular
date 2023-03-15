@@ -10,6 +10,9 @@ import { BasicScatterComponent } from './basic-scatter/basic-scatter.component';
 import { DonutOneComponent } from './donut-one/donut-one.component';
 import { ResponsiveBarComponent } from './responsive-bar/responsive-bar.component';
 import { StackedBarTooltipComponent } from './stacked-bar-tooltip/stacked-bar-tooltip.component';
+import { SvgShapesComponent } from './svg-shapes/svg-shapes.component';
+import { SvgTransitionComponent } from './svg-transition/svg-transition.component';
+
 
 // https://observablehq.com/@d3/gallery
 const routes: Routes = [
@@ -23,6 +26,8 @@ const routes: Routes = [
   {path:'stacked-bar-tooltip', component: StackedBarTooltipComponent},
   {path:'donut-one', component: DonutOneComponent},
   {path:'bar-chart-tooltip', component: BarChartTooltipComponent},
+  {path:'svg-transition', component: SvgTransitionComponent},
+  {path:'svg-shapes', component: SvgShapesComponent},
 ];
 
 @NgModule({

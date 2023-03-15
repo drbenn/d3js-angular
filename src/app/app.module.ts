@@ -15,6 +15,8 @@ import { BarChartTwoComponent } from './bar-chart-two/bar-chart-two.component';
 import { DonutOneComponent } from './donut-one/donut-one.component';
 import { BarChartTooltipComponent } from './bar-chart-tooltip/bar-chart-tooltip.component';
 import { BarTooltipModule } from './common/ui/bar-tooltip/bar-tooltip.module';
+import { SvgTransitionComponent } from './svg-transition/svg-transition.component';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { BarTooltipModule } from './common/ui/bar-tooltip/bar-tooltip.module';
     StackedBarTooltipComponent,
     BarChartTwoComponent,
     DonutOneComponent,
-    BarChartTooltipComponent
+    BarChartTooltipComponent,
+    SvgTransitionComponent
   ],
   imports: [
     BrowserModule,
