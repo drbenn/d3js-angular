@@ -20,6 +20,7 @@ import { AmericasMapComponent } from './americas-map/americas-map.component';
 import { SimpleMapComponent } from './simple-map/simple-map.component';
 import { SimpleMapWAnimComponent } from './simple-map-w-anim/simple-map-w-anim.component';
 import { RedrawOnResizeComponent } from './redraw-on-resize/redraw-on-resize.component';
+import { GptCircleTweenComponent } from './gpt-circle-tween/gpt-circle-tween.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { RedrawOnResizeComponent } from './redraw-on-resize/redraw-on-resize.com
     AmericasMapComponent,
     SimpleMapComponent,
     SimpleMapWAnimComponent,
-    RedrawOnResizeComponent
+    RedrawOnResizeComponent,
+    GptCircleTweenComponent
   ],
   imports: [
     BrowserModule,

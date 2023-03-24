@@ -29,6 +29,7 @@ export class SimpleMapWAnimComponent implements OnInit {
     this.addGeoMapFeatures();
     this.drawCurve();
     this.drawCircle();
+    this.drawCirclePath();
 
   }
 
@@ -55,71 +56,59 @@ export class SimpleMapWAnimComponent implements OnInit {
   }
 
   animateSvg() {
-    let pathElBeingFollowed = d3.select("#moving-path")
-    let point  = -2*Math.PI;
-    const nextPoint = (-2 + 4*Math.random()) * Math.PI;
-    const points: [number, number][] = [[350, 100], [480, 140] ,[520,250]];
+    const pathPoints: [number, number][] = [[350, 100], [480, 140] ,[520,250]];
+    const coordsAsSvgPath = this.createSvgPathElementFromPointsArray(pathPoints)
+    console.log('In animateSVGG');
+
+
+
     //animate circle
     //in tween t is time of animation from 0 to 1
+    // tween can be called anytime after transition and the function gets called for each element in the selection and must return a tween function which is called at each step of the transition
+    let path = <SVGGeometryElement>d3.select('#circle-path').node();
+    console.log(path);
+
     d3.select("#moving-circle").transition().duration(2000)
-    .attrTween("transform", this.translateFn());
+      .attrTween('transform', tween)
+      console.log('in moving circle tween');
 
-    
-    // .tween('r', function() {
-    //   return function(t) { 
-    //     console.log(t);
-        
-    //     return t * 3}
-    // })
-    // .attr("r", 10)
-    // .attr("cy", 250)
-    // .attr("cx", 520)
-    // .style("fill", "black")
-    // .ease(d3.easeSin)
+      function tween() {
 
+        // const pathNode =
+        const pathLength = path.getTotalLength();
+        return function (t: number) {
+          const point = path.getPointAtLength(t * pathLength);
+          return `translate(${point.x}, ${point.y})`;
+        }
+
+
+      }
     //animate path
 
-    d3.select("#moving-path").transition().duration(2000)
-    .attr('d', this.curve(points))
+    d3.select("#moving-path").transition().duration(1000).delay(200)
+    .attr('d', this.curve(pathPoints))
     .attr('stroke', 'lightseagreen')
     .attr('fill', 'none')
     .attr('stroke-width', 6)
-    .ease(d3.easeSin)
+    .ease(d3.easeQuadInOut)
   }
 
-  translateFn() {
+  createSvgPathElementFromPointsArray(pointsArray: number[][]): SVGPathElement {
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    let pathData = '';
 
-    // We only use 'd', but list d,i,a as params just to show can have them as params.
-    // Code only really uses d and t.
-    return function(d, i, a) {
-      return function(t) {
-  
-    // 't': what's t? T is the fraction of time (between 0 and 1) since the
-    // transition began. Handy. 
-    var t_offset = d.get('offset');
-    var t_x, t_y;
-  
-    // If the data says the element should follow a circular path, do that.
-    if (d.get('rtype') == 'circle')	{
-      var rotation_radius = d.get('rotr');
-      var t_angle = (2 * Math.PI) * t;
-      var t_x = rotation_radius * Math.cos(t_angle);
-      var t_y = rotation_radius * Math.sin(t_angle);
+    for (let i = 0; i < pointsArray.length; i++) {
+      const point = pointsArray[i];
+      if (i === 0) {
+        pathData += `M ${point[0]} ${point[1]}`;
+      } else {
+        pathData += ` L ${point[0]} ${point[1]}`;
+      }
     }
-  
-    // Likewise for an ellipse:
-    if (d.get('rtype') == 'ellipse')	{
-      var rotation_radius_x = d.get('rotrx');
-      var rotation_radius_y = d.get('rotry');
-      var t_angle = (2 * Math.PI) * t;
-      var t_x = rotation_radius_x * Math.cos(t_angle);
-      var t_y = rotation_radius_y * Math.sin(t_angle);
-    }
-  
-    return "translate(" + ((width/2) + t_offset + t_x) + "," + (height/2 + t_offset + t_y) + ")";
-      };
-    };
+    path.setAttribute('d', pathData);
+    return path;
   }
+
 
 
     // https://stackoverflow.com/questions/31381129/assign-new-id-attribute-to-each-element-created
@@ -136,7 +125,6 @@ export class SimpleMapWAnimComponent implements OnInit {
 
 
   private drawCurve(): void {
-
     // const points: [number, number][] = [[100, 60], [40, 90], [200, 80], [300, 150]];
     const points: [number, number][] = [[350, 100], [350, 100],[350, 100]];
     this.svg.append('path')
@@ -145,5 +133,15 @@ export class SimpleMapWAnimComponent implements OnInit {
       .attr('fill', 'none')
       .attr('stroke-width', 6)
       .attr("id", "moving-path");
+  }
+
+  private drawCirclePath(): void {
+    const points: [number, number][] = [[350, 100], [480, 140] ,[520,250]];
+    this.svg.append('path')
+    // const path = this.svg.append('path')
+      .attr('d', this.curve(points))
+      .style('fill', 'none')
+      .style('stroke', 'purple')
+      .attr("id", "circle-path");
   }
 }
