@@ -10,6 +10,7 @@ import { BasicPieComponent } from './basic-pie/basic-pie.component';
 import { BasicScatterComponent } from './basic-scatter/basic-scatter.component';
 import { DonutOneComponent } from './donut-one/donut-one.component';
 import { ResponsiveBarComponent } from './responsive-bar/responsive-bar.component';
+import { SimpleMapWAnimComponent } from './simple-map-w-anim/simple-map-w-anim.component';
 import { SimpleMapComponent } from './simple-map/simple-map.component';
 import { StackedBarTooltipComponent } from './stacked-bar-tooltip/stacked-bar-tooltip.component';
 import { SvgShapesComponent } from './svg-shapes/svg-shapes.component';
@@ -32,6 +33,8 @@ const routes: Routes = [
   {path:'svg-shapes', component: SvgShapesComponent},
   {path:'americas-map', component: AmericasMapComponent},
   {path:'simple-map', component: SimpleMapComponent},
+  {path:'simple-map-w-anim', component: SimpleMapWAnimComponent},
+  {path:'redraw-on-resize', component: SimpleMapWAnimComponent},
 ];
 
 @NgModule({

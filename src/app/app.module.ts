@@ -18,6 +18,8 @@ import { BarTooltipModule } from './common/ui/bar-tooltip/bar-tooltip.module';
 import { SvgTransitionComponent } from './svg-transition/svg-transition.component';
 import { AmericasMapComponent } from './americas-map/americas-map.component';
 import { SimpleMapComponent } from './simple-map/simple-map.component';
+import { SimpleMapWAnimComponent } from './simple-map-w-anim/simple-map-w-anim.component';
+import { RedrawOnResizeComponent } from './redraw-on-resize/redraw-on-resize.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { SimpleMapComponent } from './simple-map/simple-map.component';
     BarChartTooltipComponent,
     SvgTransitionComponent,
     AmericasMapComponent,
-    SimpleMapComponent
+    SimpleMapComponent,
+    SimpleMapWAnimComponent,
+    RedrawOnResizeComponent
   ],
   imports: [
     BrowserModule,
