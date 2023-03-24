@@ -1,7 +1,9 @@
-export const simpleMapData = {
+import { ExtendedFeature, ExtendedFeatureCollection } from "d3-geo";
+
+export const simpleMapData: ExtendedFeatureCollection = {
   type: 'FeatureCollection',
-  crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
-  source: '© GeoBasis-DE / BKG 2013 (Daten verändert)',
+  // crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+  // source: '© GeoBasis-DE / BKG 2013 (Daten verändert)',
   features: [
     {
       type: 'Feature',
