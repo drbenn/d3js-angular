@@ -20,7 +20,9 @@ import { AmericasMapComponent } from './americas-map/americas-map.component';
 import { SimpleMapComponent } from './simple-map/simple-map.component';
 import { SimpleMapWAnimComponent } from './simple-map-w-anim/simple-map-w-anim.component';
 import { RedrawOnResizeComponent } from './redraw-on-resize/redraw-on-resize.component';
-import { GptCircleTweenComponent } from './gpt-circle-tween/gpt-circle-tween.component';
+import { BasicTweenAnimComponent } from './basic-tween-anim/basic-tween-anim.component';
+import { AnimOrthoMapComponent } from './anim-ortho-map/anim-ortho-map.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -42,12 +44,14 @@ import { GptCircleTweenComponent } from './gpt-circle-tween/gpt-circle-tween.com
     SimpleMapComponent,
     SimpleMapWAnimComponent,
     RedrawOnResizeComponent,
-    GptCircleTweenComponent
+    BasicTweenAnimComponent,
+    AnimOrthoMapComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BarTooltipModule
+    BarTooltipModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

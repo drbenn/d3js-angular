@@ -78,14 +78,16 @@ export class SimpleMapWAnimComponent implements OnInit {
         const pathLength = path.getTotalLength();
         return function (t: number) {
           const point = path.getPointAtLength(t * pathLength);
-          return `translate(${point.x}, ${point.y})`;
+          console.log(this.width);
+          
+          return `translate(${point.x - (350)}, ${point.y - 100})`;
         }
 
 
       }
     //animate path
 
-    d3.select("#moving-path").transition().duration(1000).delay(200)
+    d3.select("#moving-path").transition().duration(2000).delay(200)
     .attr('d', this.curve(pathPoints))
     .attr('stroke', 'lightseagreen')
     .attr('fill', 'none')
