@@ -9,6 +9,10 @@ import * as topojson from 'topojson-client';
 import { json } from 'd3-fetch';
 import { HttpClient } from '@angular/common/http';
 
+// https://gist.github.com/atanumallick/8d18989cd538c72ae1ead1c3b18d7b54
+// https://stackoverflow.com/questions/62459342/compatibility-between-v4-and-v5-of-d3-js
+// https://stackoverflow.com/questions/59260333/how-to-use-promise-all-instead-of-queue-in-d3
+// https://stackoverflow.com/questions/49534470/d3-js-v5-promise-all-replaced-d3-queue
 
 @Component({
   selector: 'app-anim-ortho-map',
