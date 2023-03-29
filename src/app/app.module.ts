@@ -23,6 +23,7 @@ import { RedrawOnResizeComponent } from './redraw-on-resize/redraw-on-resize.com
 import { BasicTweenAnimComponent } from './basic-tween-anim/basic-tween-anim.component';
 import { AnimOrthoMapComponent } from './anim-ortho-map/anim-ortho-map.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FlatWorldMapComponent } from './flat-world-map/flat-world-map.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
     SimpleMapWAnimComponent,
     RedrawOnResizeComponent,
     BasicTweenAnimComponent,
-    AnimOrthoMapComponent
+    AnimOrthoMapComponent,
+    FlatWorldMapComponent
   ],
   imports: [
     BrowserModule,

@@ -11,6 +11,7 @@ import { BasicPieComponent } from './basic-pie/basic-pie.component';
 import { BasicScatterComponent } from './basic-scatter/basic-scatter.component';
 import { BasicTweenAnimComponent } from './basic-tween-anim/basic-tween-anim.component';
 import { DonutOneComponent } from './donut-one/donut-one.component';
+import { FlatWorldMapComponent } from './flat-world-map/flat-world-map.component';
 import { ResponsiveBarComponent } from './responsive-bar/responsive-bar.component';
 import { SimpleMapWAnimComponent } from './simple-map-w-anim/simple-map-w-anim.component';
 import { SimpleMapComponent } from './simple-map/simple-map.component';
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path:'redraw-on-resize', component: SimpleMapWAnimComponent},
   {path:'basic-tween-anim', component: BasicTweenAnimComponent},
   {path:'anim-ortho-map', component: AnimOrthoMapComponent},
+  {path:'flat-world-map', component: FlatWorldMapComponent},
 ];
 
 @NgModule({
