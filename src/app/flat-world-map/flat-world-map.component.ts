@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import * as d3 from 'd3';
 import * as topojson from 'topojson-client';
@@ -14,7 +14,7 @@ import * as topojson from 'topojson-client';
 // https://observablehq.com/@d3/programmatic-zoom?collection=@d3/d3-zoom
 // https://stackoverflow.com/questions/69971491/d3-events-in-new-versions
 // https://stackoverflow.com/questions/69109270/updating-d3-zoom-behavior-from-v3
-export class FlatWorldMapComponent implements OnInit, AfterViewInit {
+export class FlatWorldMapComponent implements OnInit {
   worldUrl: string = '../../assets/world-110m.json'
   worldData: any;
   locationsUrl: string = '../../assets/nordic-locations-cluster.json'
@@ -25,7 +25,7 @@ export class FlatWorldMapComponent implements OnInit, AfterViewInit {
   height: number = 500;
 
   locations: any = [];
-  
+
   markerGroup: any;
   // projection: d3.GeoProjection;
   projection: any;
@@ -33,74 +33,59 @@ export class FlatWorldMapComponent implements OnInit, AfterViewInit {
   path: d3.GeoPath; // formerly GeoProjection | any
   center: [number, number];
 
-  minZoom;
-  maxZoom;
-  gX;
-  gY;
-  // Define map zoom behaviour
-  zoom;
+  zoom:any;
+  zoomBehavior: any;
+  zoomGroup: any;
+  minZoom: number = 1;
+  maxZoom: number = 2;
 
   constructor(private http:HttpClient) { }
 
-  map1
-  ngAfterViewInit(): void {
-
-
-  }
-
-  // zoomed() {
-    
-  //     this.map1.selectAll("g").attr("transform", d3.event.transform);
-    
-  // }
-
   ngOnInit(): void {
-
-    // this.zoom = d3.zoom()
-    //   .scaleExtent([1, 40])
-    //   .on("zoom", this.zoomed);
-
 
     forkJoin([this.http.get(this.worldUrl), this.http.get(this.locationsUrl)]).subscribe(res => {
       this.worldData = res[0];
       this.locationsData = res[1];
-      this.createSvg(); 
-      // this.drawGraticule(); 
-      this.drawMap(); 
-
-      this.enableZoom();
-
-
+      this.createSvg();
+      this.createZoomControls();
+      // this.drawGraticule();
+      this.drawMap();
       }, err => {
         console.log('error', err);
       }
-    ) 
+    )
   }
 
 
-private enableZoom() {
-  this.svg = d3.select("svg").call(
-    d3.zoom().scaleExtent([1,40]).on("zoom", ({transform}) => {
+  private createZoomControls() {
+    // 1. Creates group to append svg elements that are included in zoom
+    this.zoomGroup = this.svg.append("g").attr("id", "mapZoomables")
+    // 2. Creates zoom Behavior that when attached to element that calls listens and triggers the zoom event then performs the zoom handler with {tranform} values
+    this.zoomBehavior = d3.zoom().scaleExtent([this.minZoom, this.maxZoom]).on('zoom', ({transform}) => {
       console.log(transform);
-      // d3.zoomIdentity.translate(this.width / 2, this.height / 2).scale(40).translate(-transform.x, -transform.y)
 
-
-
-      // ENDED HERE/START HERE!
-
-      // this.svg.attr("transform", transform);}) // Zoom but blows up & displaces entire SVG off screen
-
-      // this.svg.selectAll('path').attr("transform", transform);}) // Allows zoom & pan map path only
-      this.svg.selectAll('circle').attr("transform", transform);}) // Allows zoom & pan marker cirlces only
-
-      // need to write select all for g...which should be appended on svg, where this svg group includes the map and markers
-      // this.svg.selectAll('g').attr("transform", transform);})
-  );
-}
-
-
-
-
+                      // Basic Map Bounds to be refactored
+                      let north: number = 100;
+                      let south: number = -100;
+                      let east: number = -100;
+                      let west: number = 100;
+                      if (transform.y > 0 && transform.y >= 100) {
+                        transform.y = north;
+                      }
+                      if (transform.y < 0 && transform.y <= -100) {
+                        transform.y = south;
+                      }
+                      if (transform.x < 0 && transform.x <= -100) {
+                        transform.x = east;
+                      }
+                      if (transform.x > 0 && transform.x >= 100) {
+                        transform.x = west;
+                      }
+      this.svg.select("#mapZoomables").attr("transform", transform)
+    })
+    // 3. Attaches zoomBehavior onto svg element
+    this.svg.call(this.zoomBehavior)
+  }
 
 
   private createSvg() {
@@ -113,28 +98,17 @@ private enableZoom() {
       .attr("width", "100%")
       .attr("height", "100%")
       .attr("fill", "#4c4c4c")
-    this.svg.append("g"); // append grouping created to place all map and marker objects?
-      // .attr("transform",
-      // "translate(" + 200 + "," + 200 + ")")
-      // .attr("transform",
-      // "scale(0.5)")
 
-    
-    this.markerGroup = this.svg.append('g');
     this.projection = d3.geoNaturalEarth1(); // d3.geoMercator() | d3.geoEquirectangular() | d3.geoNaturalEarth1()
     this.initialScale = this.projection.scale();
     this.path = d3.geoPath().projection(this.projection);
     this.center = [this.width/2, this.height/2];
   }
 
-  mapGroup;
 
   private drawMap() {
     let worldDataFeatureCollection = topojson.feature(this.worldData, this.worldData.objects.countries) // converts geometry collection into featurecollections, may need to npm i geojson @types/geojson
-
-    console.log(this.svg);
-    
-    this.svg.selectAll(".segment")
+    this.zoomGroup.selectAll(".segment")
       .data(worldDataFeatureCollection['features'])
       .enter()
       .append("path")
@@ -144,29 +118,15 @@ private enableZoom() {
       .style("stroke-width", "1px")
       .style("fill", (d, i) => '#8b9a8b') // land color
       .style("opacity", ".6")
-      // .attr("transform",
-      // "scale(0.5)")
-      // .call(this.zoom)
-      // .on("click", this.clicked);
       this.locations = this.locationsData;
       this.drawMarkers();
-      // this.svg.call(this.zoom);
   }
-
-  // clicked(event, [x, y]) {
-  //   event.stopPropagation();
-  //   this.svg.transition().duration(750).call(
-  //     this.zoom.transform,
-  //     d3.zoomIdentity.translate(this.width / 2, this.height / 2).scale(40).translate(-x, -y),
-  //     d3.pointer(event)
-  //   );
-  // }
 
   private drawGraticule() {
     const graticule = d3.geoGraticule()
     .step([10, 10]);
 
-    this.svg.append("path")
+    this.zoomGroup.append("path")
         .datum(graticule)
         .attr("class", "graticule")
         .attr("d", this.path)
@@ -174,7 +134,8 @@ private enableZoom() {
         .style("stroke", "#000");
   }
 
-  private drawMarkers() {  
+  private drawMarkers() {
+    this.markerGroup = this.zoomGroup.append('g').attr("id", "mapMarkersGroup");
     const markers = this.markerGroup.selectAll('circle')
     .data(this.locationsData);
     markers
@@ -200,15 +161,7 @@ private enableZoom() {
   nordicZoomIn() {
     console.log('zoom in');
     console.log(this.svg);
-    // This works in activating a zoom when clicking on map
-    // this.svg = d3.select("svg").call(
-    //   d3.zoom().on("zoom", (event) => {
-    //     console.log(event.transform);
-        
-    //     this.svg.attr("transform", event.transform);
-    //   } )
-    // );
- 
+
   }
 
   worldZoomOut() {
