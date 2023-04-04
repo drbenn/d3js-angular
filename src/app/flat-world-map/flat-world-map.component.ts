@@ -37,7 +37,9 @@ export class FlatWorldMapComponent implements OnInit {
   zoomBehavior: any;
   zoomGroup: any;
   minZoom: number = 1;
-  maxZoom: number = 2;
+  maxZoom: number = 10;
+
+
 
   constructor(private http:HttpClient) { }
 
@@ -56,7 +58,7 @@ export class FlatWorldMapComponent implements OnInit {
     )
   }
 
-
+  //https://www.geeksforgeeks.org/d3-js-zoomidentity-function/
   private createZoomControls() {
     // 1. Creates group to append svg elements that are included in zoom
     this.zoomGroup = this.svg.append("g").attr("id", "mapZoomables")
@@ -65,22 +67,22 @@ export class FlatWorldMapComponent implements OnInit {
       console.log(transform);
 
                       // Basic Map Bounds to be refactored
-                      let north: number = 100;
-                      let south: number = -100;
-                      let east: number = -100;
-                      let west: number = 100;
-                      if (transform.y > 0 && transform.y >= 100) {
-                        transform.y = north;
-                      }
-                      if (transform.y < 0 && transform.y <= -100) {
-                        transform.y = south;
-                      }
-                      if (transform.x < 0 && transform.x <= -100) {
-                        transform.x = east;
-                      }
-                      if (transform.x > 0 && transform.x >= 100) {
-                        transform.x = west;
-                      }
+                      // let north: number = 100;
+                      // let south: number = -100;
+                      // let east: number = -100;
+                      // let west: number = 100;
+                      // if (transform.y > 0 && transform.y >= 100) {
+                      //   transform.y = north;
+                      // }
+                      // if (transform.y < 0 && transform.y <= -100) {
+                      //   transform.y = south;
+                      // }
+                      // if (transform.x < 0 && transform.x <= -100) {
+                      //   transform.x = east;
+                      // }
+                      // if (transform.x > 0 && transform.x >= 100) {
+                      //   transform.x = west;
+                      // }
       this.svg.select("#mapZoomables").attr("transform", transform)
     })
     // 3. Attaches zoomBehavior onto svg element
@@ -159,13 +161,18 @@ export class FlatWorldMapComponent implements OnInit {
 
 
   nordicZoomIn() {
-    console.log('zoom in');
-    console.log(this.svg);
-
+    const clickZoomIdNordic = d3.zoomIdentity.translate(-2909.299, -213.304).scale(6.241);
+    this.svg.select("#mapZoomables").transition().duration(2000).call(this.zoomBehavior.transform, clickZoomIdNordic)
   }
 
   worldZoomOut() {
-    console.log('zoom out');
+    const worldView = d3.zoomIdentity.translate(0, 0).scale(1);
+    this.svg.select("#mapZoomables").transition().duration(2000).call(this.zoomBehavior.transform, worldView)
+  }
+
+  panEast() {
+    const panEastView = d3.zoomIdentity.translate(-3100, -213.304).scale(6.241);
+    this.svg.select("#mapZoomables").transition().duration(2000).call(this.zoomBehavior.transform, panEastView)
   }
 
 
