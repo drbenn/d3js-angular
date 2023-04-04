@@ -1,0 +1,20 @@
+[
+  {
+    "latitude": 66.402234,
+    "longitude": 25.950705,
+    "name": "jet1",
+    "imgRef": "../../assets/nordic-demo/img/jet.png"
+  },
+  {
+    "latitude": 68.402234,
+    "longitude": 25.950705,
+    "name": "jet2",
+    "imgRef": "../../assets/nordic-demo/img/fighter-jet.png"
+  },
+  {
+    "latitude": 68.7,
+    "longitude": 23.7,
+    "name": "jet3",
+    "imgRef": "../../assets/nordic-demo/img/fighter-airplane.png"
+  }
+]

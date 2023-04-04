@@ -19,6 +19,8 @@ export class NordicAirForceDemoComponent implements OnInit {
   worldData: any;
   locationsUrl: string = '../../assets/nordic-demo/data/nordic-static-locations.json'
   locationsData: any;
+  jetsUrl: string = '../../assets/nordic-demo/data/nordic-jet-movements.json'
+  jetsData: any;
   // MAP PROPERTIES - CREATE SVG
   @ViewChild('nordicMap', {static: true}) mapRef: ElementRef;
   private svg: any;
@@ -33,6 +35,7 @@ export class NordicAirForceDemoComponent implements OnInit {
   locations: any = [];
   markerGroup: any;
   markerNameGroup: any;
+  jetGroup: any;
   // MAP PROPERTIES - ZOOM
   zoom:any;
   zoomBehavior: any;
@@ -47,19 +50,23 @@ export class NordicAirForceDemoComponent implements OnInit {
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
-    forkJoin([this.http.get(this.worldUrl), this.http.get(this.locationsUrl)]).subscribe(res => {
+    forkJoin([this.http.get(this.worldUrl), this.http.get(this.locationsUrl), this.http.get(this.jetsUrl)]).subscribe(res => {
       this.worldData = res[0];
       this.locationsData = res[1];
+      this.jetsData = res[2]
       this.createSvg();
       this.createZoomControls();
-      // this.drawGraticule();
+      this.drawGraticule();
       this.drawMap();
-      // this.addPng();
+      this.addLocationNames()
+      this.addPng();
       }, err => {
         console.log('error', err);
       }
     )
   }
+
+
 
   private createSvg() {
     this.svg = d3.select(this.mapRef.nativeElement)
@@ -94,47 +101,53 @@ export class NordicAirForceDemoComponent implements OnInit {
       this.drawMarkers();
   }
 
-  private drawGraticule() {
-    const graticule = d3.geoGraticule()
-    .step([10, 10]);
+  addPng() {
+    this.jetGroup = this.zoomGroup.append('g').attr("id", "jetGroup");
+    const jets = this.jetGroup.selectAll('images')
+    .data(this.jetsData);
+    jets
+    .enter()
+    .append('image')
+    .merge(jets)
+    .attr("xlink:href", d => d.imgRef)
+    .attr("width", "3px")
+    .attr("height", "3px")
+    .attr('x', d => this.projection([d.longitude, d.latitude])[0])
+    .attr('y', d => this.projection([d.longitude, d.latitude])[1])
+    .attr('id', d => 'jetId-' + d.name)
+    .style("transform", d => `rotate(45deg) translate(-125px,-375px)`)
+    }
 
-    this.zoomGroup.append("path")
-        .datum(graticule)
-        .attr("class", "graticule")
-        .attr("d", this.path)
-        .style("fill", "none")
-        .style("stroke", "#000");
-  }
 
   private drawMarkers() {
     this.markerGroup = this.zoomGroup.append('g').attr("id", "mapMarkersGroup");
     const markers = this.markerGroup.selectAll('circle')
     .data(this.locationsData);
     markers
-      .enter()
-      .append('circle')
-      .merge(markers)
-      .attr('cx', d => this.projection([d.longitude, d.latitude])[0])
-      .attr('cy', d => this.projection([d.longitude, d.latitude])[1])
-      .attr('fill', d => {
-          const coordinate: [number, number] = [d.longitude, d.latitude];
+    .enter()
+    .append('circle')
+    .merge(markers)
+    .attr('cx', d => this.projection([d.longitude, d.latitude])[0])
+    .attr('cy', d => this.projection([d.longitude, d.latitude])[1])
+    .attr('fill', d => {
+      const coordinate: [number, number] = [d.longitude, d.latitude];
           let gdistance = d3.geoDistance(coordinate, this.projection.invert(this.center));
           return gdistance > 1.57 ? 'none' : d.fillColor;
       })
       .attr('r', 0.5)
       .attr('id', d => `static-` + d.name )
       .style("stroke", "#00000080")
-        // .append('text')
-        //   .attr("x", d => d.longitude)
-        //   .attr("y", d => d.latitude)
-        //   .attr("font-size", 20)
-        //   .attr("fill", "red")
-        //   .text(d => d.name)
+      // .append('text')
+      //   .attr("x", d => d.longitude)
+      //   .attr("y", d => d.latitude)
+      //   .attr("font-size", 20)
+      //   .attr("fill", "red")
+      //   .text(d => d.name)
 
     this.markerGroup.each(function () {
       this.parentNode.appendChild(this);
     });
-    this.addLocationNames()
+
   }
 
   private addLocationNames() {
@@ -151,16 +164,16 @@ export class NordicAirForceDemoComponent implements OnInit {
       .attr('fill', '#c4c4c4')
       .text(d => d.name)
       // this.markerNameGroup.each(function () {
-      //   this.parentNode.appendChild(this);
-      // });
+        //   this.parentNode.appendChild(this);
+        // });
 
-  }
+      }
 
-  private createZoomControls() {
-    // 1. Creates group to append svg elements that are included in zoom
-    this.zoomGroup = this.svg.append("g").attr("id", "mapZoomables")
-    // 2. Creates zoom Behavior that when attached to element that calls listens and triggers the zoom event then performs the zoom handler with {tranform} values
-    this.zoomBehavior = d3.zoom().scaleExtent([this.minZoom, this.maxZoom]).on('zoom', ({transform}) => {
+      private createZoomControls() {
+        // 1. Creates group to append svg elements that are included in zoom
+        this.zoomGroup = this.svg.append("g").attr("id", "mapZoomables")
+        // 2. Creates zoom Behavior that when attached to element that calls listens and triggers the zoom event then performs the zoom handler with {tranform} values
+        this.zoomBehavior = d3.zoom().scaleExtent([this.minZoom, this.maxZoom]).on('zoom', ({transform}) => {
       console.log(transform);
       this.svg.select("#mapZoomables").attr("transform", transform)
     })
@@ -168,6 +181,18 @@ export class NordicAirForceDemoComponent implements OnInit {
     this.svg.call(this.zoomBehavior)
   }
 
+  private drawGraticule() {
+    const graticule = d3.geoGraticule()
+    .step([10, 10]);
+
+    this.zoomGroup.append("path")
+        .datum(graticule)
+        .attr("class", "graticule")
+        .attr("d", this.path)
+        .style("fill", "none")
+        .style("stroke", "#e6e6e612")
+        .style("stroke-width", "0.2px")
+  }
 
 
   public isIntersecting (status: boolean, index: number) {
