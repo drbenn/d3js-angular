@@ -1,0 +1,107 @@
+:host {
+  // border:1px solid red;
+  // background-color: lime;
+  width: 100%;
+  height: 100%;
+  font-size: 0.9rem;
+  line-height: 1.5rem;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+}
+$text-light: #e6e6e6;
+$text-dark: #202020;
+.intro-banner {
+  background-color: #101010;
+  color: #bbbbbb;
+  width: 100%;
+  height: 1.2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.1rem;
+}
+
+.bg-splash {
+  height: 40rem;
+  background-image: url("../../assets/nordic-demo/img/intro-img-dark.png");
+  // background: linear-gradient(115deg,rgb(24, 24, 24) 0%, rgb(24, 24, 24) 40%, rgb(16, 33, 101) 80%, rgb(24, 24, 24) 100%);
+  color: $text-light;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  position: relative;
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.splash-text {
+  font-size: 8rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  // padding: 5rem 0rem 3rem 0rem;
+  text-shadow: 1px 2px 3px rgb(29, 29, 29);
+  }
+
+.intro {
+  height: fit-content;
+
+  background: linear-gradient(115deg,rgb(24, 24, 24) 0%, rgb(24, 24, 24) 20%, rgb(20, 26, 54) 80%, rgb(24, 24, 24) 100%);
+  color: $text-light;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  position: relative;
+  text-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 3rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 5rem 0rem 3rem 0rem;
+  text-shadow: 1px 1px 4px rgb(59, 59, 59);
+}
+
+.intro-text {
+width: 70%;
+line-height: 1.2rem;
+margin-bottom: 1rem;
+font-weight: 400;
+}
+
+.music-button {
+  width: 6rem;
+  height: 2.5rem;
+  font-size: 2rem;
+  font-weight: 100;
+  line-height: 0.8rem;
+  margin: 4rem;
+  color: $text-light;
+  background: linear-gradient(115deg,rgb(225, 225, 225) 0%, rgb(24, 24, 24) 12%, rgb(20, 26, 54) 80%, rgb(24, 24, 24) 100%);
+  border: 1px solid rgb(65, 65, 65);
+  border-radius: 2px;
+}
+
+
+.map-section {
+  border:1px solid red;
+  background-color: goldenrod;
+  width: 100%;
+  height: 100rem;
+}
+
+.map-container {
+  border:1px solid red;
+  background-color: lime;
+  width: 100%;
+  height: 10rem;
+}

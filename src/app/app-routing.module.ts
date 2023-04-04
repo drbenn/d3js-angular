@@ -18,6 +18,7 @@ import { SimpleMapComponent } from './simple-map/simple-map.component';
 import { StackedBarTooltipComponent } from './stacked-bar-tooltip/stacked-bar-tooltip.component';
 import { SvgShapesComponent } from './svg-shapes/svg-shapes.component';
 import { SvgTransitionComponent } from './svg-transition/svg-transition.component';
+import { NordicAirForceDemoComponent } from './nordic-air-force-demo/nordic-air-force-demo.component';
 
 
 // https://observablehq.com/@d3/gallery
@@ -41,6 +42,7 @@ const routes: Routes = [
   {path:'basic-tween-anim', component: BasicTweenAnimComponent},
   {path:'anim-ortho-map', component: AnimOrthoMapComponent},
   {path:'flat-world-map', component: FlatWorldMapComponent},
+  {path:'nordic-air-force-demo', component: NordicAirForceDemoComponent},
 ];
 
 @NgModule({
