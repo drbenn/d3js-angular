@@ -8,9 +8,12 @@
 
 
 <div class="intro">
+
+
   <div class="title">
     Intro
   </div>
+
   <div class="intro-text">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem, distinctio minus numquam earum, nam dignissimos amet optio sequi minima, iusto beatae. Soluta totam sint laboriosam saepe fuga magni velit, inventore quos delectus eos dolor quaerat modi corrupti cum non ab nam officia ullam libero doloremque magnam. Esse quis asperiores eveniet?
   </div>
@@ -20,18 +23,35 @@
   <div class="intro-text">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore quas minus maiores! Aperiam recusandae in ducimus ipsam est, exercitationem repudiandae repellat minima illum corporis expedita asperiores inventore libero sint, odit quidem mollitia magnam atque blanditiis accusantium corrupti alias optio. Quia assumenda tempora dignissimos, itaque ad repellat quis delectus consectetur praesentium perspiciatis blanditiis, dolor laudantium fugit! Unde eaque nisi ex ea odit fuga, debitis illum, voluptates a recusandae nostrum placeat omnis aspernatur perspiciatis. Esse aliquid, iste, doloribus incidunt eveniet dolorem, architecto itaque unde temporibus optio veritatis! Unde modi adipisci eum in tempora dolorum. Temporibus quod iste corrupti repellendus atque consequuntur at deleniti quas quos, repudiandae numquam, quaerat nobis rerum laboriosam. Necessitatibus animi corporis distinctio! Voluptates labore neque repellat aliquam placeat suscipit recusandae nemo nihil, dicta vero voluptatum nostrum rem debitis. Ab qui vitae illum numquam. Laudantium exercitationem velit maxime, rem mollitia dolor aut hic nam odio voluptatem quaerat. Esse, inventore qui?
   </div>
+
+  <div class="idea-source">
+    <a href="https://www.youtube.com/watch?v=si9Phc9ArpU">Idea Source: Why Finland Joining NATO Checkmates Russia</a>
+  </div>
+
   <div>
     <button class="music-button" (click)="toggleMusic()">
       <span *ngIf="!isMusicPlaying">&#9835;</span>
-      <span *ngIf="isMusicPlaying">&#9832;</span>
+      <span *ngIf="isMusicPlaying" class="fire">&#9832;</span>
     </button>
   </div>
 
 </div>
 
 <section class="map-section">
-  <div #d3map class="map-container"></div>
+  <div #nordicMap class="map-container">
+    <button><</button>
+    <button>></button>
+  </div>
 
-
+  <div *ngFor="let index of items"
+  class="big-pane"
+  appObserveElement
+  #intersection="intersection"
+  [class.example-card--is-intersecting]="intersection._isIntersecting"
+  (isIntersecting)="isIntersecting($event, index)"
+  [isContinuous]="true"
+  >
+  <p>Section {{index}}</p>
+</div>
 
 </section>

@@ -9,6 +9,36 @@
 }
 $text-light: #e6e6e6;
 $text-dark: #202020;
+
+a:link {
+  text-decoration: none;
+  color: #c4c4c4;
+  transition: 100ms;
+}
+
+a:visited {
+  text-decoration: none;
+  color: #009f97;
+  transition: 100ms;
+}
+
+a:hover {
+  text-decoration: none;
+  color: rgb(42, 82, 134);
+  transition: 100ms;
+  cursor: default;
+}
+
+a:active {
+  text-decoration: none;
+  color: white;
+}
+
+.idea-source {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+}
+
 .intro-banner {
   background-color: #101010;
   color: #bbbbbb;
@@ -89,19 +119,49 @@ font-weight: 400;
   background: linear-gradient(115deg,rgb(225, 225, 225) 0%, rgb(24, 24, 24) 12%, rgb(20, 26, 54) 80%, rgb(24, 24, 24) 100%);
   border: 1px solid rgb(65, 65, 65);
   border-radius: 2px;
+  transition: 100ms ease-in;
+}
+
+.music-button:hover {
+  filter: brightness(115%);
+  transition: 100ms ease-in;
+}
+
+.fire {
+  color: rgb(255, 77, 68);
 }
 
 
 .map-section {
-  border:1px solid red;
-  background-color: goldenrod;
+  // border:1px solid red;
+  background-color: #6a6a6a;
   width: 100%;
-  height: 100rem;
+  height: 300rem;
+  position: relative;
 }
 
 .map-container {
-  border:1px solid red;
-  background-color: lime;
+  background-color: #ffdb272b;
+
   width: 100%;
-  height: 10rem;
+  height: fit-content;
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+
+
+.big-pane {
+  border: 4px solid rgb(33, 145, 97);
+  background: linear-gradient(75deg, #ee9ca7, #ffdde1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem;
+  height: 110vh;
+  width: 80%;
+  font-size: 2rem;
+  font-weight: 600;
+  color: darkslategray;
+  text-shadow: 2px 2px 2px black;
 }

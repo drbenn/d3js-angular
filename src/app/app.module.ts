@@ -25,6 +25,8 @@ import { AnimOrthoMapComponent } from './anim-ortho-map/anim-ortho-map.component
 import { HttpClientModule } from '@angular/common/http';
 import { FlatWorldMapComponent } from './flat-world-map/flat-world-map.component';
 import { NordicAirForceDemoComponent } from './nordic-air-force-demo/nordic-air-force-demo.component';
+import { ObserveElementDirective } from './nordic-air-force-demo/observe-element.directive';
+
 
 
 @NgModule({
@@ -49,7 +51,8 @@ import { NordicAirForceDemoComponent } from './nordic-air-force-demo/nordic-air-
     BasicTweenAnimComponent,
     AnimOrthoMapComponent,
     FlatWorldMapComponent,
-    NordicAirForceDemoComponent
+    NordicAirForceDemoComponent,
+    ObserveElementDirective
   ],
   imports: [
     BrowserModule,
