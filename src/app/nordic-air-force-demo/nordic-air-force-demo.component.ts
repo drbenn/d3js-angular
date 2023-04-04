@@ -41,7 +41,7 @@ export class NordicAirForceDemoComponent implements OnInit {
   zoomBehavior: any;
   zoomGroup: any;
   minZoom: number = 1;
-  maxZoom: number = 20;
+  maxZoom: number = 30;
 
   // INTERSECTION OBSERVER
   items: number[] = [1,2,3,4,5]
@@ -59,7 +59,7 @@ export class NordicAirForceDemoComponent implements OnInit {
       this.drawGraticule();
       this.drawMap();
       this.addLocationNames()
-      this.addPng();
+      this.addJets();
       }, err => {
         console.log('error', err);
       }
@@ -101,7 +101,7 @@ export class NordicAirForceDemoComponent implements OnInit {
       this.drawMarkers();
   }
 
-  addPng() {
+  addJets() {
     this.jetGroup = this.zoomGroup.append('g').attr("id", "jetGroup");
     const jets = this.jetGroup.selectAll('images')
     .data(this.jetsData);
@@ -197,6 +197,9 @@ export class NordicAirForceDemoComponent implements OnInit {
 
   public isIntersecting (status: boolean, index: number) {
     console.log('Element #' + index + ' is intersecting ' + status)
+    if (index === 2 && status === true) {
+      this.nordicZoomIn()
+    }
   }
 
   public toggleMusic() {
@@ -217,5 +220,47 @@ export class NordicAirForceDemoComponent implements OnInit {
       // this.audio.stopMusic()
       this.audio.muted = true;
     }
+  }
+
+  zoomIdentities: any = [
+    {
+      desc: 'Zoom to nordic region',
+      k: 8.33972,
+      x: -3909.9983869,
+      y: -242.8596992555
+    },
+    {
+      desc: 'Zoom to jet1',
+      k: 8.33972,
+      x: -3909.9983869,
+      y: -242.8596992555
+    },
+    {
+      desc: 'Zoom to jet2',
+      k: 8.33972,
+      x: -3909.9983869,
+      y: -242.8596992555
+    },
+    {
+      desc: 'Zoom to jet3',
+      k: 8.33972,
+      x: -3909.9983869,
+      y: -242.8596992555
+    },
+    {
+      desc: 'Zoom to jet4',
+      k: 8.33972,
+      x: -3909.9983869,
+      y: -242.8596992555
+    }
+
+  ]
+
+  nordicZoomIn() {
+    const clickZoomIdNordic = d3.zoomIdentity.translate(
+      this.zoomIdentities[0].x,
+      this.zoomIdentities[0].y)
+      .scale(this.zoomIdentities[0].k);
+    this.svg.select("#mapZoomables").transition().duration(4000).call(this.zoomBehavior.transform, clickZoomIdNordic)
   }
 }

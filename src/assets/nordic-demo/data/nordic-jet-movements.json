@@ -16,5 +16,11 @@
     "longitude": 23.7,
     "name": "jet3",
     "imgRef": "../../assets/nordic-demo/img/fighter-airplane.png"
+  },
+  {
+    "latitude": 66.5,
+    "longitude": 23.0,
+    "name": "jet4",
+    "imgRef": "../../assets/nordic-demo/img/fighter-jet2.png"
   }
 ]
