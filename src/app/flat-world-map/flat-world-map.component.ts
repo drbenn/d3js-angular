@@ -45,6 +45,7 @@ export class FlatWorldMapComponent implements OnInit {
 
   ngOnInit(): void {
 
+
     forkJoin([this.http.get(this.worldUrl), this.http.get(this.locationsUrl)]).subscribe(res => {
       this.worldData = res[0];
       this.locationsData = res[1];
@@ -52,6 +53,7 @@ export class FlatWorldMapComponent implements OnInit {
       this.createZoomControls();
       // this.drawGraticule();
       this.drawMap();
+      this.addPng();
       }, err => {
         console.log('error', err);
       }
@@ -174,6 +176,15 @@ export class FlatWorldMapComponent implements OnInit {
     const panEastView = d3.zoomIdentity.translate(-3100, -213.304).scale(6.241);
     this.svg.select("#mapZoomables").transition().duration(2000).call(this.zoomBehavior.transform, panEastView)
   }
+
+  addPng() {
+    this.zoomGroup.append('image')
+      .attr("xlink:href", '../../assets/image/air-force.png')
+      .attr("width", "25px")
+      .attr("height", "25px")
+      .attr("x", "22")
+      .attr("y", "99")
+    }
 
 
 }
