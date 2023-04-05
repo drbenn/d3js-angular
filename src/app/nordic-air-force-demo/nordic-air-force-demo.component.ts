@@ -66,10 +66,10 @@ export class NordicAirForceDemoComponent implements OnInit {
   zoomBehavior: any;
   zoomGroup: any;
   minZoom: number = 1;
-  maxZoom: number = 30;
+  maxZoom: number = 50;
 
   // INTERSECTION OBSERVER
-  items: number[] = [1,2,3,4,5,6, 7,8,9,10,11,12,13,14,15,16,17,18]
+  items: number[] = [1,2,3,4,5,6, 7,8,9,10,11,12,13,14,15,16,17,18, 19]
   infoView:string = '';
 
 
@@ -84,8 +84,12 @@ export class NordicAirForceDemoComponent implements OnInit {
       this.createZoomControls();
       this.drawGraticule();
       this.drawMap();
+      this.drawSupplyPath()
+      this.drawMarkers();
       this.addLocationNames()
       this.addJets();
+      
+      this.nordicZoomIn()
       }, err => {
         console.log('error', err);
       }
@@ -124,7 +128,7 @@ export class NordicAirForceDemoComponent implements OnInit {
       .style("fill", (d, i) => '#242d2e') // land color
       .style("opacity", ".6")
       this.locations = this.locationsData;
-      this.drawMarkers();
+
   }
 
   addJets() {
@@ -141,7 +145,7 @@ export class NordicAirForceDemoComponent implements OnInit {
     .attr('x', d => this.projection([d.longitude, d.latitude])[0])
     .attr('y', d => this.projection([d.longitude, d.latitude])[1])
     .attr('id', d => 'jetId-' + d.name)
-    .style("transform", d => `rotate(45deg) translate(-125px,-375px)`)
+    // .style("transform", d => `rotate(45deg) translate(-125px,-375px)`)
     }
 
 
@@ -158,7 +162,7 @@ export class NordicAirForceDemoComponent implements OnInit {
     .attr('fill', d => {
       const coordinate: [number, number] = [d.longitude, d.latitude];
           let gdistance = d3.geoDistance(coordinate, this.projection.invert(this.center));
-          return gdistance > 1.57 ? 'none' : d.fillColor;
+          return gdistance > 1.57 ? d.fillColor : d.fillColor;
       })
       .attr('r', 0.5)
       .attr('id', d => `static-` + d.name )
@@ -188,6 +192,7 @@ export class NordicAirForceDemoComponent implements OnInit {
       .attr('y', d => this.projection([d.longitude, d.latitude])[1])
       .attr("font-size", 1.5)
       .attr('fill', '#c4c4c4')
+      // .attr(  'shape-rendering', 'crispEdges')
       .text(d => d.name)
       // this.markerNameGroup.each(function () {
         //   this.parentNode.appendChild(this);
@@ -224,7 +229,8 @@ export class NordicAirForceDemoComponent implements OnInit {
   public isIntersecting (status: boolean, index: number) {
     console.log('Element #' + index + ' is intersecting ' + status)
     if (index === 1 && status === true) {
-      this.nordicZoomIn()
+      // this.nordicZoomIn()
+      this.zoomToLocation(8.33972, -3909.9983869, -242.8596992555, 1000)
     }
     if (index === 2 && status === true) {
       this.infoView = 'nordic-force'
@@ -232,12 +238,14 @@ export class NordicAirForceDemoComponent implements OnInit {
     if (index === 3 && status === true) {
       this.infoView = ''
       //zoom/action
+      this.zoomToLocation(27.47, -13803.027, -1456.5896, 1000)
     }
     if (index === 4 && status === true) {
       this.infoView = 'sweden'
     }
     if (index === 5 && status === true) {
       this.infoView = ''
+      this.zoomToLocation(27.47, -13307.0276, -1372.5896, 1000)
       //zoom/action
     }
     if (index === 6 && status === true) {
@@ -245,6 +253,7 @@ export class NordicAirForceDemoComponent implements OnInit {
     }
     if (index === 7 && status === true) {
       this.infoView = ''
+      this.zoomToLocation(27.47, -13467.0276, -1765.5896, 1000)
       //zoom/action
     }
     if (index === 8 && status === true) {
@@ -252,6 +261,7 @@ export class NordicAirForceDemoComponent implements OnInit {
     }
     if (index === 9 && status === true) {
       this.infoView = ''
+      this.zoomToLocation(27.47, -14196.0276, -1387.5895, 1000)
       //zoom/action
     }
     if (index === 10 && status === true) {
@@ -259,6 +269,7 @@ export class NordicAirForceDemoComponent implements OnInit {
     }
     if (index === 11 && status === true) {
       this.infoView = ''
+      this.zoomToLocation(11.4716, -5635.1502, -277.58304, 1000)
       //zoom/action
     }
     if (index === 12 && status === true) {
@@ -266,24 +277,32 @@ export class NordicAirForceDemoComponent implements OnInit {
     }
     if (index === 13 && status === true) {
       this.infoView = ''
-      //zoom/action
+      this.zoomToLocation(25.49248, -13498.79323, -710.6898, 1000)
+      // move to formation
+      this.planesToFormation()
     }
     if (index === 14 && status === true) {
       this.infoView = 'mumansk'
     }
     if (index === 15 && status === true) {
       this.infoView = ''
+      this.zoomToLocation(11.7289, -5949.15438, -185.162105, 1000)
       //zoom/action
     }
     if (index === 16 && status === true) {
       this.infoView = 'supply-route'
+      //draw path
     }
     if (index === 17 && status === true) {
       this.infoView = ''
+      this.zoomToLocation(24.9332, -13186.42135, -944.848266, 1000)
       //zoom/action
     }
     if (index === 18 && status === true) {
       this.infoView = 'supply-disruption'
+    }
+    if (index === 19 && status === true) {
+      this.infoView = ''
     }
   }
 
@@ -346,6 +365,50 @@ export class NordicAirForceDemoComponent implements OnInit {
       this.zoomIdentities[0].x,
       this.zoomIdentities[0].y)
       .scale(this.zoomIdentities[0].k);
-    this.svg.select("#mapZoomables").transition().duration(4000).call(this.zoomBehavior.transform, clickZoomIdNordic)
+    this.svg.select("#mapZoomables").transition().duration(500).call(this.zoomBehavior.transform, clickZoomIdNordic)
+  }
+
+  zoomToLocation(k:number,x:number, y:number, duration:number) {
+    const zoomId: any = d3.zoomIdentity.translate(x, y).scale(k);
+    this.svg.select("#mapZoomables").transition().duration(duration).call(this.zoomBehavior.transform, zoomId)
+  }
+
+  planesToFormation() {
+    // console.log(d3.select("#jetId-finland-jet"));
+    // d3.select("#jetId-finland-jet").transition().duration(0)
+    //   .attr("transform", "translate(0,0) rotate(45 538 60)")
+    // d3.select("#jetId-sweden-jet").transition().duration(0)
+    //   .attr("transform", "translate(0,0) rotate(45 512 63)")
+    // d3.select("#jetId-norway-jet").transition().duration(0)
+    //   .attr("transform", "translate(0,0) rotate(45 499 59)")
+    // d3.select("#jetId-denmark-jet").transition().duration(0)
+    //   .attr("transform", "translate(0,0) rotate(45 497 76)")
+    // .attr("x", 538)
+    // .attr("y", 60)
+    d3.select("#jetId-sweden-jet")
+      .transition().duration(1000)
+      .attr("x", 540)
+      .attr("y", 10)
+      .ease(d3.easeCubic)
+    // })
+    .on("end", () => {
+      d3.select("#jetId-finland-jet").transition().duration(2000)
+      .attr("x", 540)
+      .attr("y", 62)
+      .ease(d3.easeBackIn)
+    } )
+  }
+  supplyPath:any;
+  curve = d3.line().curve(d3.curveNatural);
+  drawSupplyPath(): void {
+    const points: [number, number][] = [[547, 44], [547, 46], [548, 50] , [550, 60] ,[547, 66]];
+    this.supplyPath = this.zoomGroup.append('g').attr("id", "supplyPath");
+    this.supplyPath.append('path')
+    // const path = this.svg.append('path')
+      .attr('d', this.curve(points))
+      .style('fill', 'none')
+      .style('stroke', 'purple')
+      .style('stoke-width', 15)
+      .attr("id", "supply-path-line");
   }
 }
