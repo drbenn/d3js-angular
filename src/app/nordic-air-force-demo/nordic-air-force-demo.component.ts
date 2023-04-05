@@ -3,11 +3,35 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import * as d3 from 'd3';
 import * as topojson from 'topojson-client';
+import { style, transition, trigger, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-nordic-air-force-demo',
   templateUrl: './nordic-air-force-demo.component.html',
-  styleUrls: ['./nordic-air-force-demo.component.scss']
+  styleUrls: ['./nordic-air-force-demo.component.scss'],
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ opacity: 0, transform: 'translate(20rem, 0rem)'  }),
+            animate('800ms ease-out',
+                    style({ opacity: 1, transform: 'translate(0rem, 0rem)' }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ opacity: 1, transform: 'translate(0rem, 0rem)' }),
+            animate('800ms ease-in',
+                    style({ opacity: 0, transform: 'translate(0rem, -20rem)' }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class NordicAirForceDemoComponent implements OnInit {
   // AUDIO PROPERTIES
@@ -25,7 +49,8 @@ export class NordicAirForceDemoComponent implements OnInit {
   @ViewChild('nordicMap', {static: true}) mapRef: ElementRef;
   private svg: any;
   width: number = 1000;
-  height: number = this.width * 0.5;
+  // height: number = this.width * 0.5;
+  height: number = 800;
     // projection: d3.GeoProjection;
   projection: any;
   initialScale: number;
@@ -44,7 +69,8 @@ export class NordicAirForceDemoComponent implements OnInit {
   maxZoom: number = 30;
 
   // INTERSECTION OBSERVER
-  items: number[] = [1,2,3,4,5]
+  items: number[] = [1,2,3,4,5,6, 7,8,9,10,11,12,13,14,15,16,17,18]
+  infoView:string = '';
 
 
   constructor(private http:HttpClient) { }
@@ -197,8 +223,67 @@ export class NordicAirForceDemoComponent implements OnInit {
 
   public isIntersecting (status: boolean, index: number) {
     console.log('Element #' + index + ' is intersecting ' + status)
-    if (index === 2 && status === true) {
+    if (index === 1 && status === true) {
       this.nordicZoomIn()
+    }
+    if (index === 2 && status === true) {
+      this.infoView = 'nordic-force'
+    }
+    if (index === 3 && status === true) {
+      this.infoView = ''
+      //zoom/action
+    }
+    if (index === 4 && status === true) {
+      this.infoView = 'sweden'
+    }
+    if (index === 5 && status === true) {
+      this.infoView = ''
+      //zoom/action
+    }
+    if (index === 6 && status === true) {
+      this.infoView = 'norway'
+    }
+    if (index === 7 && status === true) {
+      this.infoView = ''
+      //zoom/action
+    }
+    if (index === 8 && status === true) {
+      this.infoView = 'denmark'
+    }
+    if (index === 9 && status === true) {
+      this.infoView = ''
+      //zoom/action
+    }
+    if (index === 10 && status === true) {
+      this.infoView = 'finland'
+    }
+    if (index === 11 && status === true) {
+      this.infoView = ''
+      //zoom/action
+    }
+    if (index === 12 && status === true) {
+      this.infoView = 'joint-force'
+    }
+    if (index === 13 && status === true) {
+      this.infoView = ''
+      //zoom/action
+    }
+    if (index === 14 && status === true) {
+      this.infoView = 'mumansk'
+    }
+    if (index === 15 && status === true) {
+      this.infoView = ''
+      //zoom/action
+    }
+    if (index === 16 && status === true) {
+      this.infoView = 'supply-route'
+    }
+    if (index === 17 && status === true) {
+      this.infoView = ''
+      //zoom/action
+    }
+    if (index === 18 && status === true) {
+      this.infoView = 'supply-disruption'
     }
   }
 

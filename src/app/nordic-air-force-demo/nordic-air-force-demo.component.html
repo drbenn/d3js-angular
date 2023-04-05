@@ -44,6 +44,7 @@
     <button>></button>
   </div>
 
+
   <div *ngFor="let index of items"
   class="big-pane"
   appObserveElement
@@ -53,6 +54,115 @@
   [isContinuous]="true"
   >
   <p>Section {{index}}</p>
+</div>
+
+
+<div *ngIf="infoView === 'nordic-force'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/Nordic-air-chiefs-sign-agreement.jpg">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Nordic Force</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoView === 'sweden'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/Nordic-air-chiefs-sign-agreement.jpg">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Sweden</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoView === 'norway'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/flag-norway.png">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Norway</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoView === 'denmark'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/flag-denmark.png">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Denmark</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoView === 'finland'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/flag-finland.png">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Finland</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoView === 'joint-force'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/all-hands.jpg">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Joint-Force</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoView === 'mumansk'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/mumansk.jpg">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Mumansk</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoView === 'supply-route'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/russian-train.jpg">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Supply Route</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoView === 'supply-disruption'" class="info-dialog-container" [@inOutAnimation]>
+  <div class="info-img-container">
+    <img src="../../assets/nordic-demo/img/story/crimea-supply-bridge.jpg">
+  </div>
+  <div class="title-text-col">
+    <div class="info-title">Supply Disruption</div>
+    <div class="dialog-text">
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est asperiores eius delectus dignissimos ut facere iure explicabo nemo! Unde ex dolorum ratione omnis recusandae animi magnam, officiis reprehenderit a voluptatem, cumque temporibus blanditiis deserunt consequatur, quo porro pariatur? Ut, reprehenderit. Unde aliquam incidunt ipsam enim eveniet nisi labore minus officia ratione maxime asperiores quaerat laboriosam animi, eum aut harum repellat!
+    </div>
+  </div>
 </div>
 
 </section>
