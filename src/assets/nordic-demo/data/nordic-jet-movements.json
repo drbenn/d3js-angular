@@ -3,25 +3,25 @@
     "latitude": 62.298852,
     "longitude": 24.952157,
     "name": "finland-jet",
-    "imgRef": "../../assets/nordic-demo/img/jet.png"
+    "imgRef": "../../assets/nordic-demo/img/newJets/jet-2-3.png"
   },
   {
     "latitude": 61.29,
     "longitude": 15.03,
     "name": "sweden-jet",
-    "imgRef": "../../assets/nordic-demo/img/fighter-jet.png"
+    "imgRef": "../../assets/nordic-demo/img/newJets/fighter-jet-2.png"
   },
   {
     "latitude": 62.5,
     "longitude": 9.0,
     "name": "norway-jet",
-    "imgRef": "../../assets/nordic-demo/img/fighter-airplane.png"
+    "imgRef": "../../assets/nordic-demo/img/newJets/fighter-airplane-2.png"
   },
   {
     "latitude": 56.669698 ,
     "longitude": 8.0,
     "name": "denmark-jet",
-    "imgRef": "../../assets/nordic-demo/img/fighter-jet2.png"
+    "imgRef": "../../assets/nordic-demo/img/newJets/fighter-jet2-2.png"
   }
 ]
 
