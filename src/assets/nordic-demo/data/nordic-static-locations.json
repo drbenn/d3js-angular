@@ -3,7 +3,7 @@
     {"latitude": 59.29, "longitude": 18.03, "name": "Stockholm", "fillColor": "goldenrod"},
     {"latitude": 59.9, "longitude": 10.74, "name": "Oslo", "fillColor": "goldenrod"},
     {"latitude": 55.669698, "longitude": 12.563610, "name": "Copenhagen", "fillColor": "goldenrod"},
-    {"latitude": 59.915928, "longitude": 30.364939, "name": "St. Petersburg", "fillColor": "hotpink"},
+    {"latitude": 59.915928, "longitude": 30.364939, "name": "St. Petersburg", "fillColor": "coral"},
     {"latitude": 64.573589, "longitude": 39.854615, "name": "Severodvinsk", "fillColor": "crimson"},
     {"latitude": 68.960732, "longitude": 33.083433, "name": "Murmansk", "fillColor": "crimson"}
 

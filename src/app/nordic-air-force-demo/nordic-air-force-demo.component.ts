@@ -94,53 +94,46 @@ export class NordicAirForceDemoComponent implements OnInit {
       this.addJets();
       // this.addExplosion();
       this.addTrain()
+      this.defaultMapZoomLocation();
 
-      
-      this.nordicZoomIn()
-      }, err => {
-        console.log('error', err);
       }
     )
   }
 
-  addExplosion() {
-    this.zoomGroup.append('image').attr("id", "explosionImg").transition().duration(500)
-      // .attr("xlink:href", '../../assets/image/air-force.png')
-      .attr("xlink:href", this.explosionUrl)
-      .attr("width", "40px")
-      .attr("height", "40px")
-      .attr("x", 525)
-      .attr("y", 25)
-      .attr("opacity", 0)
-      // .attr("transform", "rotate(0 545 45)")
+  private defaultMapZoomLocation() {
+    this.zoomToLocation(8.33972, -3909.9983869, -242.8596992555, 0)
+  }
 
-      .delay(1000).transition().duration(500)
+  private addExplosion() {
+    let mapX = this.projection([32.244650, 68.734348])[0];
+    let mapY = this.projection([32.244650, 68.734348])[1];
+    this.zoomGroup.append('image').attr("id", "explosionImg").transition().duration(0)
+      .attr("xlink:href", this.explosionUrl)
       .attr("width", "4px")
       .attr("height", "4px")
-      .attr("x", 545)
-      .attr("y", 45)
+      .attr("x", mapX)
+      .attr("y", mapY)
+      .attr("opacity", 0)
+      .delay(1000).transition().duration(600)
+      .attr("width", "4px")
+      .attr("height", "4px")
+      .attr("x", mapX)
+      .attr("y", mapY)
       .attr("opacity", 1)
-      .attr("transform", "rotate(45 545 45)")
-      .ease(d3.easeBounceInOut)
-      // .attr("transform", "scale(2)")
+      .attr("transform", `rotate(0 ${mapX} ${mapY})`)
+      .ease(d3.easeBackIn)
     }
-
-    // viewExplosion() {
-    //   d3.select("#explosionImg").transition().duration(2500)
-    //   .attr("opacity", 1)
-    //   // .attr("transform", "scale(2)")
-    //   .ease(d3.easeBackIn)
-    // }
-
-    addTrain() {
-      this.zoomGroup.append('image')
-        // .attr("xlink:href", '../../assets/image/air-force.png')
-        .attr("xlink:href", this.trainUrl)
-        .attr("width", "3px")
-        .attr("height", "3px")
-        .attr("x", 545)
-        .attr("y", 45)
-      }
+    
+  private addTrain() {
+    let mapX = this.projection([32.244650, 68.734348])[0];
+    let mapY = this.projection([32.244650, 68.734348])[1];
+    this.zoomGroup.append('image')
+      .attr("xlink:href", this.trainUrl)
+      .attr("width", "3px")
+      .attr("height", "3px")
+      .attr("x", mapX)
+      .attr("y", mapY)
+    }
 
 
 
@@ -153,8 +146,7 @@ export class NordicAirForceDemoComponent implements OnInit {
     this.svg.append("rect")
       .attr("width", "100%")
       .attr("height", "100%")
-      // .attr("fill", "#232323")
-      .attr("fill", "#3333ff")
+      .attr("fill", "#232323") // world background/ocean color
 
     this.projection = d3.geoNaturalEarth1(); // d3.geoMercator() | d3.geoEquirectangular() | d3.geoNaturalEarth1()
     this.initialScale = this.projection.scale();
@@ -170,17 +162,14 @@ export class NordicAirForceDemoComponent implements OnInit {
       .append("path")
       .attr("class", "segment")
       .attr("d", this.path)
-      // .style("stroke", "#6a6a6a") // country border colors
-      .style("stroke", "crimson") // country border colors
+      .style("stroke", "#212524") // country border colors
       .style("stroke-width", "0.2px")
-      // .style("fill", (d, i) => '#242d2e') // land color
-      .style("fill", (d, i) => 'lime') // land color
+      .style("fill", (d, i) => '#414f4b') // land color
       .style("opacity", ".6")
-      this.locations = this.locationsData;
-
+      // this.locations = this.locationsData;
   }
 
-  addJets() {
+  private addJets() {
     this.jetGroup = this.zoomGroup.append('g').attr("id", "jetGroup");
     const jets = this.jetGroup.selectAll('images')
     .data(this.jetsData);
@@ -214,9 +203,10 @@ export class NordicAirForceDemoComponent implements OnInit {
           let gdistance = d3.geoDistance(coordinate, this.projection.invert(this.center));
           return gdistance > 1.57 ? d.fillColor : d.fillColor;
       })
-      .attr('r', 0.5)
+      .attr('r', 0.4)
       .attr('id', d => `static-` + d.name )
       .style("stroke", "#00000080")
+      .style("stroke-width", "0.2px")
       // .append('text')
       //   .attr("x", d => d.longitude)
       //   .attr("y", d => d.latitude)
@@ -242,20 +232,15 @@ export class NordicAirForceDemoComponent implements OnInit {
       .attr('y', d => this.projection([d.longitude, d.latitude])[1])
       .attr("font-size", 1.5)
       .attr('fill', '#c4c4c4')
-      // .attr(  'shape-rendering', 'crispEdges')
       .text(d => d.name)
-      // this.markerNameGroup.each(function () {
-        //   this.parentNode.appendChild(this);
-        // });
-
       }
 
-      private createZoomControls() {
-        // 1. Creates group to append svg elements that are included in zoom
-        this.zoomGroup = this.svg.append("g").attr("id", "mapZoomables")
-        // 2. Creates zoom Behavior that when attached to element that calls listens and triggers the zoom event then performs the zoom handler with {tranform} values
-        this.zoomBehavior = d3.zoom().scaleExtent([this.minZoom, this.maxZoom]).on('zoom', ({transform}) => {
-      console.log(transform);
+  private createZoomControls() {
+    // 1. Creates group to append svg elements that are included in zoom
+    this.zoomGroup = this.svg.append("g").attr("id", "mapZoomables")
+    // 2. Creates zoom Behavior that when attached to element that calls listens and triggers the zoom event then performs the zoom handler with {tranform} values
+    this.zoomBehavior = d3.zoom().scaleExtent([this.minZoom, this.maxZoom]).on('zoom', ({transform}) => {
+      // console.log(transform);
       this.svg.select("#mapZoomables").attr("transform", transform)
     })
     // 3. Attaches zoomBehavior onto svg element
@@ -265,7 +250,6 @@ export class NordicAirForceDemoComponent implements OnInit {
   private drawGraticule() {
     const graticule = d3.geoGraticule()
     .step([10, 10]);
-
     this.zoomGroup.append("path")
         .datum(graticule)
         .attr("class", "graticule")
@@ -275,9 +259,9 @@ export class NordicAirForceDemoComponent implements OnInit {
         .style("stroke-width", "0.2px")
   }
 
-
+  // Story Progression Triggers
   public isIntersecting (status: boolean, index: number) {
-    console.log('Element #' + index + ' is intersecting ' + status)
+    // console.log('Element #' + index + ' is intersecting ' + status)
     if (index === 1 && status === true) {
       // this.nordicZoomIn()
       this.zoomToLocation(8.33972, -3909.9983869, -242.8596992555, 1000)
@@ -361,89 +345,33 @@ export class NordicAirForceDemoComponent implements OnInit {
 
   public toggleMusic() {
     this.isMusicPlaying = !this.isMusicPlaying
-    if (!this.audio) {
-      this.audio = new Audio();
-    }
+    if (!this.audio) { this.audio = new Audio();}
     this.audio.src = this.musicPath;
-    // switch audio on
     if (this.isMusicPlaying) {
       this.audio.load();
       this.audio.loop = true;
       this.audio.muted = false;
       this.audio.play();
     }
-    // switch audio off
-    if (!this.isMusicPlaying) {
-      // this.audio.stopMusic()
-      this.audio.muted = true;
-    }
+    if (!this.isMusicPlaying) { this.audio.muted = true;}
   }
 
-  zoomIdentities: any = [
-    {
-      desc: 'Zoom to nordic region',
-      k: 8.33972,
-      x: -3909.9983869,
-      y: -242.8596992555
-    },
-    {
-      desc: 'Zoom to jet1',
-      k: 8.33972,
-      x: -3909.9983869,
-      y: -242.8596992555
-    },
-    {
-      desc: 'Zoom to jet2',
-      k: 8.33972,
-      x: -3909.9983869,
-      y: -242.8596992555
-    },
-    {
-      desc: 'Zoom to jet3',
-      k: 8.33972,
-      x: -3909.9983869,
-      y: -242.8596992555
-    },
-    {
-      desc: 'Zoom to jet4',
-      k: 8.33972,
-      x: -3909.9983869,
-      y: -242.8596992555
-    }
 
-  ]
-
-  nordicZoomIn() {
-    const clickZoomIdNordic = d3.zoomIdentity.translate(
-      this.zoomIdentities[0].x,
-      this.zoomIdentities[0].y)
-      .scale(this.zoomIdentities[0].k);
-    this.svg.select("#mapZoomables").transition().duration(500).call(this.zoomBehavior.transform, clickZoomIdNordic)
-  }
-
-  zoomToLocation(k:number,x:number, y:number, duration:number) {
+  private zoomToLocation(k:number,x:number, y:number, duration:number) {
+    // Commented out attempts to zoom with lat/lng rather than svg pixels, most notably in zoomId the x and y values must both be multiplied by some value of scale
+    // let mapX = this.projection([x, y])[0];
+    // let mapY = this.projection([x, y])[1];
+    // const zoomId: any = d3.zoomIdentity.translate(-mapX * (k * 0.95), -mapY * (k* 0.50)).scale(k);
     const zoomId: any = d3.zoomIdentity.translate(x, y).scale(k);
     this.svg.select("#mapZoomables").transition().duration(duration).call(this.zoomBehavior.transform, zoomId)
   }
 
-  planesToFormation() {
-    // console.log(d3.select("#jetId-finland-jet"));
-    // d3.select("#jetId-finland-jet").transition().duration(0)
-    //   .attr("transform", "translate(0,0) rotate(45 538 60)")
-    // d3.select("#jetId-sweden-jet").transition().duration(0)
-    //   .attr("transform", "translate(0,0) rotate(45 512 63)")
-    // d3.select("#jetId-norway-jet").transition().duration(0)
-    //   .attr("transform", "translate(0,0) rotate(45 499 59)")
-    // d3.select("#jetId-denmark-jet").transition().duration(0)
-    //   .attr("transform", "translate(0,0) rotate(45 497 76)")
-    // .attr("x", 538)
-    // .attr("y", 60)
+  private planesToFormation() {
     d3.select("#jetId-sweden-jet")
       .transition().duration(2000)
       .attr("x", 542)
       .attr("y", 60)
       .ease(d3.easeBackIn)
-    // })
     .on("end", () => {
       d3.select("#jetId-finland-jet").transition().duration(2900)
       .attr("x", 540)
@@ -457,11 +385,7 @@ export class NordicAirForceDemoComponent implements OnInit {
       .attr("x", 538)
       .attr("y", 60)
       .ease(d3.easeBackIn)
-    } )
-
-
-
-
+    })
   }
   supplyPath:any;
   curve = d3.line().curve(d3.curveNatural);
@@ -471,21 +395,10 @@ export class NordicAirForceDemoComponent implements OnInit {
   drawSupplyPath(): void {
     const points: [number, number][] = [[547, 44], [547, 46], [548, 50] , [550, 60] ,[547, 66]];
     this.supplyPath = this.zoomGroup.append('g').attr("id", "supplyPath");
-    // this.supplyPath.append('path')
-    //   .attr('d', this.curve(points))
-    //   .style('fill', 'none')
-    //   .style('stroke', 'purple')
-    //   .style('stoke-width', 15)
-    //   .attr("id", "supply-path-line");
+    // Draw Path
     this.supplyPath.append('path')
     .attr('d', this.curve(points))
-    .style("stroke", "lightgreen")
-    .style("stroke-width", 1)
-    .style('fill', 'none')
-    // .style('stroke', 'purple')
-    // .style('stoke-width', 15)
     .attr("id", "supply-path-line")
-    .text("stroke-dash-offset", 5)
     .attr("x1", points[0][0])
     .attr("y1", points[0][1])
     .attr("x2", points[1][0])
@@ -496,17 +409,23 @@ export class NordicAirForceDemoComponent implements OnInit {
     .attr("y4", points[3][1])
     .attr("x5", points[4][0])
     .attr("y5", points[4][1])
-    let pathText = this.supplyPath.append('text')
-    // .text("stroke-dashoffset: " + this.dashOffset)
-    .attr("x", 500)
-    .attr("y",60)
-    .attr("font-family", "monospace")
-
-    ;
+    .style('fill', 'none')
+    .style("stroke", "lightgreen")
+    .style("stroke-width", "0.2px")
+    // Get path length
     this.pathObject= d3.select("#supply-path-line")['_groups'][0][0]
     console.log(this.pathObject);
-    let length = this.getPathLength(this.pathObject,points)
-    console.log(length);
+    const pathLength = this.getPathLength(this.pathObject,points)
+    // Set dashoffset to pathlength making path transparent
+    this.supplyPath.attr("stroke-dashoffset", pathLength)
+    this.supplyPath.attr("stroke-dasharray", pathLength)
+    // Set supplyPath animation
+    const transitionPath = d3.transition().ease(d3.easeSin).duration(8000);
+    this.supplyPath
+    .attr("stroke-dashoffset", pathLength)
+    .attr("stroke-dasharray", pathLength)
+    .transition(transitionPath)
+    .attr("stroke-dashoffset", 0);
     
     
   }
@@ -521,6 +440,8 @@ export class NordicAirForceDemoComponent implements OnInit {
   const x2 = endCoords[0]
   const y2 = endCoords[0]
   let distance = Math.sqrt(((x2-x1)**2) + ((y2-y1)**2))
+  console.log(distance);
+  
   return distance
   }
 }
