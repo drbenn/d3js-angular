@@ -54,6 +54,8 @@ export class NordicAirForceDemoComponent implements OnInit {
   width: number = 1200;
   // height: number = this.width * 0.5;
   height: number = 800;
+  // width: number = window.innerWidth;
+  // height: number = window.innerHeight;
     // projection: d3.GeoProjection;
   projection: any;
   initialScale: number;
@@ -88,12 +90,11 @@ export class NordicAirForceDemoComponent implements OnInit {
       this.createZoomControls();
       this.drawGraticule();
       this.drawMap();
-      this.drawSupplyPath()
+
       this.drawMarkers();
       this.addLocationNames()
       this.addJets();
       // this.addExplosion();
-      this.addTrain()
       this.defaultMapZoomLocation();
 
       }
@@ -105,8 +106,8 @@ export class NordicAirForceDemoComponent implements OnInit {
   }
 
   private addExplosion() {
-    let mapX = this.projection([32.244650, 68.734348])[0];
-    let mapY = this.projection([32.244650, 68.734348])[1];
+    let mapX = this.projection([32.5, 66.2])[0];
+    let mapY = this.projection([32.5, 66.2])[1];
     this.zoomGroup.append('image').attr("id", "explosionImg").transition().duration(0)
       .attr("xlink:href", this.explosionUrl)
       .attr("width", "4px")
@@ -114,7 +115,7 @@ export class NordicAirForceDemoComponent implements OnInit {
       .attr("x", mapX)
       .attr("y", mapY)
       .attr("opacity", 0)
-      .delay(1000).transition().duration(600)
+      .delay(6000).transition().duration(800)
       .attr("width", "4px")
       .attr("height", "4px")
       .attr("x", mapX)
@@ -123,16 +124,29 @@ export class NordicAirForceDemoComponent implements OnInit {
       .attr("transform", `rotate(0 ${mapX} ${mapY})`)
       .ease(d3.easeBackIn)
     }
-    
+
   private addTrain() {
     let mapX = this.projection([32.244650, 68.734348])[0];
     let mapY = this.projection([32.244650, 68.734348])[1];
-    this.zoomGroup.append('image')
+    let mapX2 = this.projection([32.5, 66.2])[0];
+    let mapY2 = this.projection([32.5, 66.2])[1];
+    this.zoomGroup.append('image').transition().duration(0)
       .attr("xlink:href", this.trainUrl)
       .attr("width", "3px")
       .attr("height", "3px")
       .attr("x", mapX)
       .attr("y", mapY)
+      .attr("opacity", 0)
+      .delay(1000).transition().duration(600)
+      .attr("width", "3px")
+      .attr("height", "3px")
+      .attr("x", mapX)
+      .attr("y", mapY)
+      .attr("opacity", 1)
+      .ease(d3.easeCubicInOut)
+      .delay(3000).transition().duration(4000)
+      .attr("x", mapX2)
+      .attr("y", mapY2)
     }
 
 
@@ -326,13 +340,16 @@ export class NordicAirForceDemoComponent implements OnInit {
     }
     if (index === 16 && status === true) {
       this.infoView = 'supply-route'
+      console.log(this.addTrain());
+      this.drawSupplyPath()
+      this.addTrain();
+      this.jetsToTrain()
       //draw path
     }
     if (index === 17 && status === true) {
       this.infoView = ''
       this.zoomToLocation(24.9332, -13186.42135, -944.848266, 1000)
       this.addExplosion()
-      //zoom/action
     }
     if (index === 18 && status === true) {
       this.infoView = 'supply-disruption'
@@ -366,25 +383,51 @@ export class NordicAirForceDemoComponent implements OnInit {
     this.svg.select("#mapZoomables").transition().duration(duration).call(this.zoomBehavior.transform, zoomId)
   }
 
+
+  private jetsToTrain() {
+      let mapX = this.projection([30.5, 66.2])[0];
+      let mapY = this.projection([30.5, 66.2])[1];
+
+
+    d3.select("#jetId-sweden-jet")
+    .transition().duration(2000)
+    .attr("x", mapX)
+    .attr("y", mapY)
+    .ease(d3.easeCubicInOut)
+    d3.select("#jetId-finland-jet").transition().duration(2000)
+    .attr("x", mapX - 1)
+    .attr("y", mapY + 3.5)
+    .ease(d3.easeCubicInOut)
+    d3.select("#jetId-norway-jet").transition().duration(200)
+    .attr("x", mapX - 1)
+    .attr("y", mapY - 3.5)
+    .ease(d3.easeCubicInOut)
+    d3.select("#jetId-denmark-jet").transition().duration(2000)
+    .attr("x", mapX - 3.5)
+    .attr("y", mapY)
+    .ease(d3.easeCubicInOut)
+
+  }
+
   private planesToFormation() {
     d3.select("#jetId-sweden-jet")
       .transition().duration(2000)
       .attr("x", 542)
       .attr("y", 60)
-      .ease(d3.easeBackIn)
+      .ease(d3.easeCubicInOut)
     .on("end", () => {
       d3.select("#jetId-finland-jet").transition().duration(2900)
       .attr("x", 540)
       .attr("y", 63)
-      .ease(d3.easeBackIn)
+      .ease(d3.easeCubicInOut)
       d3.select("#jetId-norway-jet").transition().duration(2500)
       .attr("x", 540)
       .attr("y", 57)
-      .ease(d3.easeBackIn)
+      .ease(d3.easeCubicInOut)
       d3.select("#jetId-denmark-jet").transition().duration(2800)
       .attr("x", 538)
       .attr("y", 60)
-      .ease(d3.easeBackIn)
+      .ease(d3.easeCubicInOut)
     })
   }
   supplyPath:any;
@@ -415,33 +458,26 @@ export class NordicAirForceDemoComponent implements OnInit {
     // Get path length
     this.pathObject= d3.select("#supply-path-line")['_groups'][0][0]
     console.log(this.pathObject);
-    const pathLength = this.getPathLength(this.pathObject,points)
+    const pathLength = this.getPathLength(points)
     // Set dashoffset to pathlength making path transparent
     this.supplyPath.attr("stroke-dashoffset", pathLength)
     this.supplyPath.attr("stroke-dasharray", pathLength)
     // Set supplyPath animation
-    const transitionPath = d3.transition().ease(d3.easeSin).duration(8000);
     this.supplyPath
-    .attr("stroke-dashoffset", pathLength)
-    .attr("stroke-dasharray", pathLength)
-    .transition(transitionPath)
-    .attr("stroke-dashoffset", 0);
-    
-    
+      .attr("stroke-dashoffset", pathLength)
+      .attr("stroke-dasharray", pathLength)
+      .transition(d3.transition().ease(d3.easeSin).duration(8000))
+      .attr("stroke-dashoffset", 1);
   }
-  getPathLength(object,points) {
-  // console.log(Object.keys(object));
-  console.log(points);
-  
-  const startCoords = points[0]
+
+  private getPathLength(points: [number, number][]) {
+   const startCoords = points[0]
   const endCoords = points[points.length -1]
   const x1 = startCoords[0]
   const y1 = startCoords[1]
   const x2 = endCoords[0]
   const y2 = endCoords[0]
   let distance = Math.sqrt(((x2-x1)**2) + ((y2-y1)**2))
-  console.log(distance);
-  
   return distance
   }
 }
