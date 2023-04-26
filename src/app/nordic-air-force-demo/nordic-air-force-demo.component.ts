@@ -140,7 +140,8 @@ export class NordicAirForceDemoComponent implements OnInit {
       this.svg.select("#mapZoomables").attr("transform", transform);
     })
     // 3. Attaches zoomBehavior onto svg element
-    this.svg.call(this.zoomBehavior);
+    this.svg.call(this.zoomBehavior)
+      .on("wheel.zoom", null); // prevents mouse scroll from interfering with map zoom while scrolling over map component
   }
   
   private defaultMapZoomLocation() {
